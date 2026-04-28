@@ -32,8 +32,15 @@ CASES = [
     ("keyboard",       PHONE, "Keyboard / Messages"),
     ("calculator",     PHONE, "Calculator"),
     ("notes",          PHONE, "Notes"),
-    ("desktop",        DESK,  "Desktop"),
-    ("spotlight",      DESK,  "Spotlight"),
+    ("desktop",          DESK, "Desktop — bosh"),
+    ("desktop-files",    DESK, "Desktop — Fayllar"),
+    ("desktop-mail",     DESK, "Desktop — Pochta"),
+    ("desktop-browser",  DESK, "Desktop — Brauzer"),
+    ("desktop-calendar", DESK, "Desktop — Taqvim"),
+    ("desktop-music",    DESK, "Desktop — Musiqa"),
+    ("desktop-mission",  DESK, "Desktop — Mission Control"),
+    ("desktop-login",    DESK, "Desktop — Kirish"),
+    ("spotlight",        DESK, "Desktop — Spotlight"),
 ]
 
 
