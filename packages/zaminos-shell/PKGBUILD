@@ -2,13 +2,9 @@
 pkgname=zaminos-shell
 pkgver=0.1.0
 pkgrel=1
-pkgdesc="Convergent Qt/QML shell for ZaminOS (mobile + desktop)"
-arch=('aarch64')
-url="https://github.com/abbosjon-dev/os"
+pkgdesc="ZaminOS konvergent qobig'i (mobile + desktop)"
+url="https://zaminos.uz"
 license=('GPL3')
-depends=('qt6-base' 'qt6-declarative' 'qt6-wayland' 'qt6-svg'
-         'kwayland' 'kirigami' 'kwin')
-makedepends=('cmake' 'extra-cmake-modules' 'qt6-tools')
 source=("zaminos-shell-${pkgver}.tar.gz::file://${startdir}/../../shell")
 sha256sums=('SKIP')
 

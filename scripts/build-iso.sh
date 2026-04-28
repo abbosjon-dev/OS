@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
-# Build the ZaminOS bootable image for PinePhone (aarch64).
-# Requires: archlinux host, arch-install-scripts, qemu-user-static-binfmt,
-# and the archiso package (provides mkarchiso).
+# ZaminOS — Zamin Phone uchun yuklanadigan tasvirni yig'ish.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -9,12 +7,12 @@ OUT="${ROOT}/out"
 WORK="${ROOT}/.work"
 
 if [[ "$(id -u)" -ne 0 ]]; then
-  echo "build-iso.sh must run as root (mkarchiso needs to chroot)" >&2
+  echo "build-iso.sh root sifatida ishga tushirilishi kerak" >&2
   exit 1
 fi
 
 if ! command -v mkarchiso >/dev/null; then
-  echo "mkarchiso not found — install the 'archiso' package" >&2
+  echo "Yig'ish vositasi topilmadi — yig'ish muhitini tayyorlang" >&2
   exit 1
 fi
 
@@ -24,5 +22,5 @@ cd "${ROOT}/iso"
 mkarchiso -v -w "${WORK}" -o "${OUT}" .
 
 echo
-echo "Built image:"
+echo "Tayyor tasvir:"
 ls -lh "${OUT}"/*.iso

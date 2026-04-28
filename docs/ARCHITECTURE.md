@@ -1,56 +1,55 @@
-# ZaminOS — architecture
+# ZaminOS — arxitektura
 
-ZaminOS is a convergent Linux distribution for the PinePhone. One installation,
-two faces:
+ZaminOS — Zamin Phone uchun konvergent operatsion tizim. Bitta o'rnatish,
+ikki yuz:
 
-- **Mobile mode** when the user is holding the phone.
-- **Desktop mode** when the phone is docked to a screen, keyboard or mouse.
+- **Mobile rejim** — foydalanuvchi telefonni qo'lida ushlab turganda.
+- **Desktop rejim** — telefon ekran, klaviatura yoki sichqonchaga ulanganda.
 
-## Stack
+## Qatlamlar
 
 ```
 ┌────────────────────────────────────────────────────────────┐
-│  ZaminOS shell  (Qt6 + QML, Kirigami)                      │
-│  ─ MobileShell.qml      ─ DesktopShell.qml                 │
+│  ZaminOS qobig'i                                           │
+│  ─ MobileShell      ─ DesktopShell                         │
 └──────────────┬─────────────────────────────────────────────┘
-               │ D-Bus  org.zaminos.FormFactor1
+               │ org.zaminos.FormFactor1
 ┌──────────────┴─────────────────────────────────────────────┐
-│  zamin-formfactord  (Rust, libinput + udev)                │
-│  watches: drm connectors, input devices                    │
-└──────────────┬─────────────────────────────────────────────┘
-               │ Wayland
-┌──────────────┴─────────────────────────────────────────────┐
-│  KWin (Wayland)                                            │
+│  zamin-formfactord  (tizim xizmati)                        │
+│  kuzatadi: tashqi ekran, klaviatura, sichqoncha            │
 └──────────────┬─────────────────────────────────────────────┘
                │
 ┌──────────────┴─────────────────────────────────────────────┐
-│  Linux kernel (megi tree) + PinePhone DT                   │
-│  ─ anx7688 (USB-C DisplayPort Alt Mode)                    │
-│  ─ dwc3 dual-role (USB hub support)                        │
+│  ZaminOS oynalar boshqaruvchisi                            │
+└──────────────┬─────────────────────────────────────────────┘
+               │
+┌──────────────┴─────────────────────────────────────────────┐
+│  Zamin Phone qurilma qo'llab-quvvatlash qatlami            │
+│  ─ tashqi ekran ulanishi                                   │
+│  ─ USB orqali tashqi qurilmalar                            │
 └────────────────────────────────────────────────────────────┘
 ```
 
-## Convergence flow
+## Konvergensiya oqimi
 
-1. User plugs an HDMI-over-USB-C dock into the PinePhone.
-2. Kernel: `anx7688` negotiates DP Alt Mode → a new `drm` connector appears.
-3. udev fires `change` on `subsystem=drm` → systemd activates
-   `zamin-formfactord.service`.
-4. Daemon re-scans inputs, decides `Mode::Desktop`, emits
-   `org.zaminos.FormFactor1.ModeChanged("desktop")` on the session bus.
-5. Shell receives the signal and swaps its root component from `MobileShell` to
-   `DesktopShell`. KWin reconfigures outputs (mirror vs. extend) per user
-   preference.
-6. Unplugging reverses everything within ~1 s.
+1. Foydalanuvchi Zamin Phone'ga ekran-klaviatura ulagichini ulaydi.
+2. Qurilma qatlami yangi tashqi ekranni aniqlaydi.
+3. Tizim `zamin-formfactord` xizmatini xabardor qiladi.
+4. Xizmat ulangan kirish qurilmalarini tekshiradi va `Mode::Desktop` ga
+   o'tishni hal qiladi, so'ng `org.zaminos.FormFactor1.ModeChanged("desktop")`
+   signalini yuboradi.
+5. Qobiq signalni qabul qiladi va `MobileShell` dan `DesktopShell` ga
+   almashtiradi. Oynalar boshqaruvchisi ekranlarni qaytadan sozlaydi.
+6. Kabel uzilganda hammasi ~1 soniyada teskari yo'nalishda qaytadi.
 
-## Repository layout
+## Tezkor qarash — papkalar
 
-| Path            | What lives here                                              |
-|-----------------|--------------------------------------------------------------|
-| `iso/`          | mkarchiso profile that produces the bootable image           |
-| `packages/`     | PKGBUILDs for our own pacman packages                        |
-| `shell/`        | Qt6 + QML convergent shell (source for `zaminos-shell`)      |
-| `formfactord/`  | Rust daemon (source for `zaminos-formfactord`)               |
-| `kernel/`       | Notes + config for the PinePhone kernel build                |
-| `scripts/`      | Developer helpers (`build-iso.sh`, `flash-pinephone.sh`, …)  |
-| `docs/`         | Design docs                                                  |
+| Yo'l            | Mazmuni                                                     |
+|-----------------|-------------------------------------------------------------|
+| `iso/`          | O'rnatish tasvirini yig'ish profili                         |
+| `packages/`     | ZaminOS paketlari uchun yig'ish retseptlari                 |
+| `shell/`        | ZaminOS konvergent qobig'i                                  |
+| `formfactord/`  | Forma-faktor aniqlash xizmati                               |
+| `kernel/`       | Zamin Phone qurilma qatlami sozlamalari                     |
+| `scripts/`      | Yig'ish va flash skriptlari                                 |
+| `docs/`         | Hujjatlar                                                   |

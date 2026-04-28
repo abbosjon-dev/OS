@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Render ZaminOS shell QML to PNG screenshots (mobile + desktop modes)."""
+"""ZaminOS qobiq dizaynini PNG tasvirlarga chiqarish (mobile + desktop)."""
 import sys
 from pathlib import Path
 from PySide6.QtCore import QUrl, QTimer, Qt
@@ -12,8 +12,8 @@ OUT_DIR = Path(__file__).resolve().parent / "out"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
 CASES = [
-    ("mobile",  540, 1080, "Mobile (PinePhone portrait)"),
-    ("desktop", 1280, 720, "Desktop (HDMI ulangan)"),
+    ("mobile",  540, 1080, "Zamin Phone (mobile rejim)"),
+    ("desktop", 1280, 720, "Zamin Phone (desktop rejim)"),
 ]
 
 

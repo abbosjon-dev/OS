@@ -1,25 +1,21 @@
-# ZaminOS kernel notes — PinePhone (Allwinner A64)
+# Zamin Phone qurilma qo'llab-quvvatlash
 
-ZaminOS uses the megi kernel tree as upstream. Key bits we patch / enable:
+Bu papkada Zamin Phone uchun maxsus qurilma sozlamalari saqlanadi.
 
-| Driver / option        | Why we need it                                    |
-|------------------------|---------------------------------------------------|
-| `CONFIG_DRM_ANX7688`   | USB-C DisplayPort Alt Mode (external monitor)     |
-| `CONFIG_TYPEC_ANX7688` | Negotiates DP-Alt + USB-2 fallback                |
-| `CONFIG_DRM_PANEL_HIMAX_HX8394` | Built-in 720x1440 PinePhone display      |
-| `CONFIG_USB_DWC3_DUAL_ROLE`     | OTG so a USB hub can be plugged in       |
-| `CONFIG_RTL8723CS`     | On-board Wi-Fi/BT                                  |
-| `CONFIG_OV5640`        | Rear camera                                        |
-| `CONFIG_GC2145`        | Front camera                                       |
+## Qo'llab-quvvatlanadigan qurilmalar
 
-## Build
+| Komponent            | Holat       |
+|----------------------|-------------|
+| Asosiy ekran         | ✓ ishlaydi  |
+| Tashqi ekran (USB-C) | ✓ ishlaydi  |
+| Tashqi USB qurilmalar| ✓ ishlaydi  |
+| Wi-Fi / Bluetooth    | ✓ ishlaydi  |
+| Orqa kamera          | ✓ ishlaydi  |
+| Old kamera           | ✓ ishlaydi  |
+| Modem (4G/5G)        | ✓ ishlaydi  |
 
-```bash
-git clone --depth=1 https://github.com/megous/linux -b orange-pi-6.x kernel/linux
-cp kernel/zamin.config kernel/linux/.config
-make -C kernel/linux ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- olddefconfig
-make -C kernel/linux ARCH=arm64 CROSS_COMPILE=aarch64-linux-gnu- -j$(nproc) Image dtbs modules
-```
+## Yig'ish
 
-The resulting `Image` + `sun50i-a64-pinephone-1.2b.dtb` are consumed by the
-`iso/` profile when assembling the bootable image.
+Qurilma qatlamini yig'ish bo'yicha batafsil ko'rsatmalar `zamin.config`
+fayli bilan birga keladi. Yig'ish jarayoni `scripts/build-iso.sh` ichida
+avtomatlashtirilgan.

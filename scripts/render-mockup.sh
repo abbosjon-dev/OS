@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
-# Render the ZaminOS shell QML mockup to PNG screenshots inside a virtual X
-# server. Used for design previews before flashing to real hardware.
+# ZaminOS qobiq dizaynini PNG tasvirlarga chiqarish — Zamin Phone'ga
+# yuborishdan oldin dizaynni ko'rib chiqish uchun.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"

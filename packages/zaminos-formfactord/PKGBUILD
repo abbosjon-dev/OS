@@ -2,12 +2,9 @@
 pkgname=zaminos-formfactord
 pkgver=0.1.0
 pkgrel=1
-pkgdesc="Form-factor detection daemon — switches ZaminOS between mobile and desktop modes"
-arch=('aarch64')
-url="https://github.com/abbosjon-dev/os"
+pkgdesc="ZaminOS forma-faktor aniqlash xizmati — mobile va desktop rejimlari orasida almashtiradi"
+url="https://zaminos.uz"
 license=('GPL3')
-depends=('libinput' 'systemd' 'dbus')
-makedepends=('rust' 'cargo')
 source=("formfactord-${pkgver}.tar.gz::file://${startdir}/../../formfactord")
 sha256sums=('SKIP')
 

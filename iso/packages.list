@@ -1,7 +1,9 @@
-# Base
+# ZaminOS — tizim paketlari ro'yxati
+
+# Asosiy tizim
 base
 base-devel
-linux-pinephone
+linux-zaminphone
 linux-firmware
 mkinitcpio
 sudo
@@ -16,14 +18,14 @@ pulseaudio
 pulseaudio-bluetooth
 alsa-utils
 
-# Wayland + graphics
+# Grafika
 wayland
 xorg-xwayland
 mesa
 vulkan-icd-loader
 seatd
 
-# KWin convergent compositor
+# ZaminOS oynalar boshqaruvchisi
 kwin
 plasma-workspace
 plasma-wayland-protocols
@@ -35,19 +37,19 @@ qt6-wayland
 qt6-svg
 qt6-multimedia
 
-# ZaminOS specific (built from packages/)
+# ZaminOS o'z paketlari
 zaminos-shell
 zaminos-formfactord
 zaminos-theme
 zaminos-firstboot
 
-# Mobile essentials
+# Telefon imkoniyatlari
 phosh-osk-stub
 eg25-manager
 callaudiod
 maliit-keyboard
 
-# Apps (default set)
+# Standart ilovalar
 firefox
 kdeconnect
 spectacle

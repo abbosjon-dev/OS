@@ -1,9 +1,9 @@
-//! ZaminOS form-factor daemon.
+//! ZaminOS forma-faktor xizmati.
 //!
-//! Watches udev for external displays, keyboards and mice. When the device set
-//! crosses the threshold for "desktop usage" it broadcasts a D-Bus signal that
-//! the shell listens for; the shell then swaps its root component between
-//! `MobileShell.qml` and `DesktopShell.qml`.
+//! Tashqi ekran, klaviatura va sichqonchani kuzatadi. Qurilmalar to'plami
+//! "desktop foydalanish" chegarasidan o'tganda qobiqqa D-Bus signali
+//! orqali xabar beradi; qobiq esa MobileShell va DesktopShell orasida
+//! almashinadi.
 
 use std::time::Duration;
 
@@ -64,9 +64,8 @@ impl ShellBridge {
 }
 
 async fn scan_inputs() -> Inputs {
-    // Real implementation enumerates udev for `drm` (external connectors with
-    // status="connected") and `input` (ID_INPUT_KEYBOARD / ID_INPUT_MOUSE).
-    // Skeleton stub so the daemon compiles end-to-end.
+    // To'liq amalga oshirishda tashqi ekran ulanishi va kirish qurilmalarini
+    // sanab chiqadi. Hozircha skelet — xizmat to'liq yig'ilishi uchun.
     Inputs::default()
 }
 

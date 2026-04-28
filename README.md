@@ -1,38 +1,32 @@
 # ZaminOS
 
-A convergent Linux distribution for the **PinePhone** (Arch Linux ARM /
-aarch64). One installation that adapts between phone and desktop:
+**ZaminOS** — Zamin Phone uchun zamonaviy, konvergent operatsion tizim.
 
-- **Mobile mode** — touch-first home screen, on-screen keyboard, dock.
-- **Desktop mode** — top panel, floating windows, taskbar — automatically
-  switched in when an external monitor + keyboard/mouse is connected.
+Bitta tizim — ikki ko'rinish:
 
-> *Zamin* (Uzbek: "earth, ground") — the foundation under everything you do
-> with your device.
+- **Mobile rejim** — telefonni qo'lingizda ushlaganingizda. Sezgir, sodda,
+  bir qo'l bilan boshqariladigan interfeys.
+- **Desktop rejim** — Zamin Phone'ga tashqi ekran, klaviatura yoki sichqoncha
+  ulanganda avtomatik ravishda yoqiladi. Yuqori panel, oynalar, vazifalar
+  paneli — to'liq ish stoli tajribasi, faqat bitta qurilmadan.
 
-## Status
+> *Zamin* (o'zbek tilida: "yer, asos") — har kuni qiladigan ishlaringiz
+> tagidagi mustahkam asos.
 
-Pre-alpha. The convergent shell is implemented as a QML mockup. The
-form-factor daemon, mkarchiso profile and kernel notes are scaffolded.
+## Xususiyatlar
 
-## Repository layout
+- **Konvergensiya** — bir qurilma, ikki ish rejimi. Ulang — desktop bo'ladi,
+  uzing — telefon bo'ladi. Hech qanday qayta yuklash, hech qanday sozlash.
+- **Mahalliy o'zbek tili** — interfeys, klaviatura va ovozli yordamchi
+  o'zbek tilida.
+- **Yangi dizayn** — Zamin tabiatidan ilhomlangan rang palitra, silliq
+  animatsiyalar, zamonaviy tipografika.
+- **Maxfiylik** — ma'lumotlaringiz qurilmangizda qoladi.
 
-| Path           | Purpose                                            |
-|----------------|----------------------------------------------------|
-| `iso/`         | mkarchiso profile that builds the bootable image   |
-| `packages/`    | PKGBUILDs for ZaminOS-specific pacman packages     |
-| `shell/`       | Qt6 + QML convergent shell                         |
-| `formfactord/` | Rust daemon that picks mobile vs. desktop          |
-| `kernel/`      | PinePhone kernel notes + config                    |
-| `scripts/`     | `build-iso.sh`, `flash-pinephone.sh`, …            |
-| `docs/`        | Architecture docs                                  |
+## Ko'rinish
 
-See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for how the pieces fit.
-
-## UI preview
-
-The shell can be rendered without a phone — it draws a software-rasterised
-preview straight to PNG so you can iterate on the design from any laptop:
+Shell dizayni — telefon bo'lmasa ham, kompyuterda PNG ga rasm qilib chiqarib
+ko'rsa bo'ladi:
 
 ```bash
 ./scripts/render-mockup.sh
@@ -40,18 +34,27 @@ preview straight to PNG so you can iterate on the design from any laptop:
 # → shell/preview/out/zaminos-desktop.png
 ```
 
-| Mobile (PinePhone portrait)                           | Desktop (HDMI ulangan)                               |
+| Mobile rejim                                          | Desktop rejim                                        |
 |-------------------------------------------------------|------------------------------------------------------|
 | ![mobile](shell/preview/out/zaminos-mobile.png)       | ![desktop](shell/preview/out/zaminos-desktop.png)    |
 
-## Building the image (Arch host)
+## Loyiha tuzilmasi
 
-```bash
-sudo pacman -S archiso arch-install-scripts qemu-user-static-binfmt
-sudo ./scripts/build-iso.sh
-sudo ./scripts/flash-pinephone.sh out/zaminos-*.iso /dev/sdX
-```
+| Yo'l           | Vazifasi                                                  |
+|----------------|-----------------------------------------------------------|
+| `shell/`       | ZaminOS qobig'i (mobile + desktop interfeysi)             |
+| `formfactord/` | Tashqi qurilmalarni aniqlovchi tizim xizmati              |
+| `packages/`    | ZaminOS paketlarining yig'ish retseptlari                 |
+| `iso/`         | Zamin Phone uchun o'rnatish tasvirini tayyorlash profili  |
+| `kernel/`      | Zamin Phone qurilmasini qo'llab-quvvatlash sozlamalari    |
+| `scripts/`     | `build-iso.sh`, `flash-zaminphone.sh`, `render-mockup.sh` |
+| `docs/`        | Loyiha hujjatlari                                         |
 
-## License
+## Holati
+
+Boshlang'ich bosqich. Konvergent qobiq dizayni tayyor, tizim xizmatlari va
+yig'ish skriptlari skelet ko'rinishida.
+
+## Litsenziya
 
 GPL-3.0-or-later.

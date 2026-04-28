@@ -1,6 +1,5 @@
 [Unit]
-Description=ZaminOS form-factor detection daemon
-After=systemd-udevd.service
+Description=ZaminOS forma-faktor aniqlash xizmati
 PartOf=graphical-session.target
 
 [Service]

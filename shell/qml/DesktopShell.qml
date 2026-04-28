@@ -292,17 +292,16 @@ Item {
             anchors.margins: 12
             spacing: 2
 
-            Text { text: "❯  neofetch"; color: Theme.accentSoft; font.family: "monospace"; font.pixelSize: 11 }
-            Text { text: "  OS:      ZaminOS rolling aarch64";   color: Theme.textHi;  font.family: "monospace"; font.pixelSize: 11 }
-            Text { text: "  Host:    PinePhone 1.2";              color: Theme.textHi;  font.family: "monospace"; font.pixelSize: 11 }
-            Text { text: "  Kernel:  6.8.0-zamin1-pinephone";     color: Theme.textHi;  font.family: "monospace"; font.pixelSize: 11 }
-            Text { text: "  Shell:   zaminshell 0.1.0";           color: Theme.textHi;  font.family: "monospace"; font.pixelSize: 11 }
-            Text { text: "  WM:      KWin (Wayland)";              color: Theme.textHi;  font.family: "monospace"; font.pixelSize: 11 }
-            Text { text: "  Mode:    desktop (HDMI ulangan)";     color: Theme.gold;    font.family: "monospace"; font.pixelSize: 11 }
+            Text { text: "❯  zamin info";                         color: Theme.accentSoft; font.family: "monospace"; font.pixelSize: 11 }
+            Text { text: "  OS:        ZaminOS 1.0";               color: Theme.textHi;     font.family: "monospace"; font.pixelSize: 11 }
+            Text { text: "  Qurilma:   Zamin Phone";               color: Theme.textHi;     font.family: "monospace"; font.pixelSize: 11 }
+            Text { text: "  Foydalanuvchi:  abbosjon";             color: Theme.textHi;     font.family: "monospace"; font.pixelSize: 11 }
+            Text { text: "  Ish vaqti: 4 soat 12 daqiqa";          color: Theme.textHi;     font.family: "monospace"; font.pixelSize: 11 }
+            Text { text: "  Holat:     Desktop rejimi (tashqi ekran)"; color: Theme.gold;   font.family: "monospace"; font.pixelSize: 11 }
             Text { text: ""; font.pixelSize: 4 }
-            Text { text: "❯  uname -m"; color: Theme.accentSoft; font.family: "monospace"; font.pixelSize: 11 }
-            Text { text: "  aarch64";                              color: Theme.textHi;  font.family: "monospace"; font.pixelSize: 11 }
-            Text { text: "❯  _";        color: Theme.accentSoft; font.family: "monospace"; font.pixelSize: 11 }
+            Text { text: "❯  zamin update";                        color: Theme.accentSoft; font.family: "monospace"; font.pixelSize: 11 }
+            Text { text: "  Tizim yangilangan ✓";                  color: Theme.success;    font.family: "monospace"; font.pixelSize: 11 }
+            Text { text: "❯  _";                                   color: Theme.accentSoft; font.family: "monospace"; font.pixelSize: 11 }
         }
     }
 

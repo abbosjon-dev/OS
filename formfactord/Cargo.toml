@@ -2,7 +2,7 @@
 name = "zamin-formfactord"
 version = "0.1.0"
 edition = "2021"
-description = "Detects external display/keyboard/mouse and tells the ZaminOS shell to switch between mobile and desktop modes."
+description = "ZaminOS forma-faktor aniqlash xizmati — tashqi ekran/klaviatura/sichqonchani aniqlab, qobiqqa rejim almashtirish to'g'risida xabar beradi."
 
 [[bin]]
 name = "zamin-formfactord"
