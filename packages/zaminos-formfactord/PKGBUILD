@@ -1,0 +1,24 @@
+# Maintainer: ZaminOS team
+pkgname=zaminos-formfactord
+pkgver=0.1.0
+pkgrel=1
+pkgdesc="ZaminOS forma-faktor aniqlash xizmati — mobile va desktop rejimlari orasida almashtiradi"
+url="https://zaminos.uz"
+license=('GPL3')
+source=("formfactord-${pkgver}.tar.gz::file://${startdir}/../../formfactord")
+sha256sums=('SKIP')
+
+build() {
+  cd "${srcdir}/formfactord"
+  cargo build --release --locked
+}
+
+package() {
+  cd "${srcdir}/formfactord"
+  install -Dm755 target/release/zamin-formfactord \
+    "${pkgdir}/usr/bin/zamin-formfactord"
+  install -Dm644 data/zamin-formfactord.service \
+    "${pkgdir}/usr/lib/systemd/system/zamin-formfactord.service"
+  install -Dm644 data/99-zamin-formfactor.rules \
+    "${pkgdir}/usr/lib/udev/rules.d/99-zamin-formfactor.rules"
+}

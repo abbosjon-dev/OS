@@ -1,0 +1,23 @@
+[package]
+name = "zamin-formfactord"
+version = "0.1.0"
+edition = "2021"
+description = "ZaminOS forma-faktor aniqlash xizmati — tashqi ekran/klaviatura/sichqonchani aniqlab, qobiqqa rejim almashtirish to'g'risida xabar beradi."
+
+[[bin]]
+name = "zamin-formfactord"
+path = "src/main.rs"
+
+[dependencies]
+input = "0.9"
+udev = "0.9"
+zbus = "4"
+serde = { version = "1", features = ["derive"] }
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "signal", "time", "sync"] }
+tracing = "0.1"
+tracing-subscriber = "0.3"
+
+[profile.release]
+opt-level = "z"
+lto = true
+strip = true

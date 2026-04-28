@@ -1,0 +1,4 @@
+# Wake the form-factor daemon whenever a display or HID device is hot-plugged.
+SUBSYSTEM=="drm",   ACTION=="change", TAG+="systemd", ENV{SYSTEMD_WANTS}+="zamin-formfactord.service"
+SUBSYSTEM=="input", ACTION=="add",    TAG+="systemd", ENV{SYSTEMD_WANTS}+="zamin-formfactord.service"
+SUBSYSTEM=="input", ACTION=="remove", TAG+="systemd", ENV{SYSTEMD_WANTS}+="zamin-formfactord.service"

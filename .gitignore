@@ -1,0 +1,20 @@
+# Build artefacts
+/out/
+.work/
+target/
+build/
+*.iso
+*.img
+
+# Allow checked-in preview renders
+!shell/preview/out/
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Python
+__pycache__/
+*.pyc
+.venv/

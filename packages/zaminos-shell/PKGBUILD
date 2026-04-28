@@ -1,0 +1,25 @@
+# Maintainer: ZaminOS team
+pkgname=zaminos-shell
+pkgver=0.1.0
+pkgrel=1
+pkgdesc="ZaminOS konvergent qobig'i (mobile + desktop)"
+url="https://zaminos.uz"
+license=('GPL3')
+source=("zaminos-shell-${pkgver}.tar.gz::file://${startdir}/../../shell")
+sha256sums=('SKIP')
+
+build() {
+  cd "${srcdir}/shell"
+  cmake -B build -S . \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_BUILD_TYPE=Release
+  cmake --build build --parallel
+}
+
+package() {
+  cd "${srcdir}/shell"
+  DESTDIR="${pkgdir}" cmake --install build
+
+  install -Dm644 "${srcdir}/shell/data/zaminos-shell.desktop" \
+    "${pkgdir}/usr/share/wayland-sessions/zaminos.desktop"
+}

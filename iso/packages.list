@@ -1,0 +1,58 @@
+# ZaminOS — tizim paketlari ro'yxati
+
+# Asosiy tizim
+base
+base-devel
+linux-zaminphone
+linux-firmware
+mkinitcpio
+sudo
+zsh
+nano
+vim
+networkmanager
+modemmanager
+bluez
+bluez-utils
+pulseaudio
+pulseaudio-bluetooth
+alsa-utils
+
+# Grafika
+wayland
+xorg-xwayland
+mesa
+vulkan-icd-loader
+seatd
+
+# ZaminOS oynalar boshqaruvchisi
+kwin
+plasma-workspace
+plasma-wayland-protocols
+kwayland
+kirigami
+qt6-base
+qt6-declarative
+qt6-wayland
+qt6-svg
+qt6-multimedia
+
+# ZaminOS o'z paketlari
+zaminos-shell
+zaminos-formfactord
+zaminos-theme
+zaminos-firstboot
+
+# Telefon imkoniyatlari
+phosh-osk-stub
+eg25-manager
+callaudiod
+maliit-keyboard
+
+# Standart ilovalar
+firefox
+kdeconnect
+spectacle
+ark
+dolphin
+konsole

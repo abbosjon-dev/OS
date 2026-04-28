@@ -1,0 +1,13 @@
+[Unit]
+Description=ZaminOS forma-faktor aniqlash xizmati
+PartOf=graphical-session.target
+
+[Service]
+Type=dbus
+BusName=org.zaminos.FormFactor
+ExecStart=/usr/bin/zamin-formfactord
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=graphical-session.target

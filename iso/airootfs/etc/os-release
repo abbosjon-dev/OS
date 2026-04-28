@@ -1,0 +1,11 @@
+NAME="ZaminOS"
+PRETTY_NAME="ZaminOS 1.0"
+ID=zaminos
+VERSION="1.0"
+VERSION_ID="1.0"
+BUILD_ID=rolling
+ANSI_COLOR="38;2;31;182;165"
+HOME_URL="https://zaminos.uz"
+SUPPORT_URL="https://zaminos.uz/support"
+BUG_REPORT_URL="https://zaminos.uz/bugs"
+LOGO=zaminos
