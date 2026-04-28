@@ -31,12 +31,22 @@ ko'rsa bo'ladi:
 ```bash
 ./scripts/render-mockup.sh
 # → shell/preview/out/zaminos-mobile.png
+# → shell/preview/out/zaminos-controlcenter.png
 # → shell/preview/out/zaminos-desktop.png
+# → shell/preview/out/zaminos-spotlight.png
 ```
 
-| Mobile rejim                                          | Desktop rejim                                        |
-|-------------------------------------------------------|------------------------------------------------------|
-| ![mobile](shell/preview/out/zaminos-mobile.png)       | ![desktop](shell/preview/out/zaminos-desktop.png)    |
+### Mobile rejim
+
+| Bosh ekran                                                  | Boshqaruv markazi                                                       |
+|-------------------------------------------------------------|-------------------------------------------------------------------------|
+| ![mobile](shell/preview/out/zaminos-mobile.png)             | ![controlcenter](shell/preview/out/zaminos-controlcenter.png)           |
+
+### Desktop rejim
+
+| Sozlamalar va eslatma oynalari                              | Qidiruv (Spotlight)                                                     |
+|-------------------------------------------------------------|-------------------------------------------------------------------------|
+| ![desktop](shell/preview/out/zaminos-desktop.png)           | ![spotlight](shell/preview/out/zaminos-spotlight.png)                   |
 
 ## Loyiha tuzilmasi
 

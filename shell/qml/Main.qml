@@ -1,16 +1,25 @@
 import QtQuick
-import QtQuick.Window
 import "theme"
 
 Item {
     id: root
-    property string mode: "mobile" // "mobile" | "desktop"
+    // "mobile" | "desktop" | "controlcenter" | "spotlight"
+    property string mode: "mobile"
 
     Loader {
         anchors.fill: parent
-        sourceComponent: root.mode === "desktop" ? desktopShell : mobileShell
+        sourceComponent: {
+            switch (root.mode) {
+            case "desktop":       return desktopShell;
+            case "controlcenter": return controlCenter;
+            case "spotlight":     return spotlight;
+            default:              return mobileShell;
+            }
+        }
     }
 
-    Component { id: mobileShell;  MobileShell {} }
-    Component { id: desktopShell; DesktopShell {} }
+    Component { id: mobileShell;   MobileShell {} }
+    Component { id: desktopShell;  DesktopShell {} }
+    Component { id: controlCenter; ControlCenter {} }
+    Component { id: spotlight;     Spotlight {} }
 }

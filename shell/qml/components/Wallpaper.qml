@@ -1,81 +1,46 @@
 import QtQuick
 import "../theme"
 
+// Smooth iOS-style wallpaper — soft gradient, no noise.
 Item {
     anchors.fill: parent
+    property string variant: "midnight" // "midnight" | "ocean" | "sunset"
 
     Rectangle {
         anchors.fill: parent
         gradient: Gradient {
             orientation: Gradient.Vertical
-            GradientStop { position: 0.0; color: "#0A1F1A" }
-            GradientStop { position: 0.55; color: "#0F2D26" }
-            GradientStop { position: 1.0; color: "#1A3D34" }
+            GradientStop { position: 0.0; color: variant === "sunset" ? "#3B1F4F" : variant === "ocean" ? "#0B2E4A" : "#0B0B23" }
+            GradientStop { position: 0.5; color: variant === "sunset" ? "#722F4A" : variant === "ocean" ? "#0F4A6E" : "#1A0F4D" }
+            GradientStop { position: 1.0; color: variant === "sunset" ? "#1A0E2C" : variant === "ocean" ? "#082338" : "#070617" }
         }
     }
 
-    // Soft glow ring (sun/earth horizon)
+    // Soft elliptical glow (top-right)
     Rectangle {
-        width: parent.width * 1.6
+        width: parent.width * 1.2
         height: width
         radius: width / 2
-        x: parent.width / 2 - width / 2
-        y: parent.height * 0.55
+        x: parent.width * 0.35
+        y: -parent.width * 0.6
         gradient: Gradient {
-            GradientStop { position: 0.0; color: Qt.rgba(0.12, 0.71, 0.65, 0.55) }
-            GradientStop { position: 0.5; color: Qt.rgba(0.12, 0.71, 0.65, 0.10) }
+            GradientStop { position: 0.0; color: Qt.rgba(0.55, 0.45, 1.0, 0.35) }
+            GradientStop { position: 0.6; color: Qt.rgba(0.55, 0.45, 1.0, 0.06) }
             GradientStop { position: 1.0; color: Qt.rgba(0, 0, 0, 0) }
         }
     }
 
-    // Mountain silhouette layers
-    Canvas {
-        anchors.fill: parent
-        onPaint: {
-            var ctx = getContext("2d");
-            ctx.reset();
-
-            // back range
-            ctx.fillStyle = "#0E2922";
-            ctx.beginPath();
-            ctx.moveTo(0, height * 0.72);
-            ctx.lineTo(width * 0.18, height * 0.55);
-            ctx.lineTo(width * 0.34, height * 0.66);
-            ctx.lineTo(width * 0.55, height * 0.50);
-            ctx.lineTo(width * 0.78, height * 0.62);
-            ctx.lineTo(width, height * 0.55);
-            ctx.lineTo(width, height);
-            ctx.lineTo(0, height);
-            ctx.closePath();
-            ctx.fill();
-
-            // front range
-            ctx.fillStyle = "#08160F";
-            ctx.beginPath();
-            ctx.moveTo(0, height * 0.85);
-            ctx.lineTo(width * 0.22, height * 0.72);
-            ctx.lineTo(width * 0.42, height * 0.80);
-            ctx.lineTo(width * 0.62, height * 0.68);
-            ctx.lineTo(width * 0.85, height * 0.78);
-            ctx.lineTo(width, height * 0.74);
-            ctx.lineTo(width, height);
-            ctx.lineTo(0, height);
-            ctx.closePath();
-            ctx.fill();
-        }
-    }
-
-    // Stars
-    Repeater {
-        model: 24
-        delegate: Rectangle {
-            width: Math.random() < 0.2 ? 2 : 1
-            height: width
-            radius: width / 2
-            color: "white"
-            opacity: 0.3 + Math.random() * 0.6
-            x: Math.random() * parent.width
-            y: Math.random() * parent.height * 0.45
+    // Bottom blue glow
+    Rectangle {
+        width: parent.width * 1.4
+        height: width
+        radius: width / 2
+        x: -parent.width * 0.4
+        y: parent.height * 0.4
+        gradient: Gradient {
+            GradientStop { position: 0.0; color: Qt.rgba(0.04, 0.52, 1.0, 0.40) }
+            GradientStop { position: 0.7; color: Qt.rgba(0.04, 0.52, 1.0, 0.05) }
+            GradientStop { position: 1.0; color: Qt.rgba(0, 0, 0, 0) }
         }
     }
 }

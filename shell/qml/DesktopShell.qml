@@ -3,240 +3,262 @@ import QtQuick.Layouts
 import "components"
 import "theme"
 
+// macOS-style desktop with iOS controls inside a Settings window — meant to
+// showcase the same component vocabulary working in landscape, multi-window
+// form. Brand chrome stays minimal: just "Zamin" on the menu bar.
 Item {
     id: root
     anchors.fill: parent
 
-    Wallpaper {}
+    Wallpaper { variant: "midnight" }
 
-    // Top panel
-    Rectangle {
-        id: topPanel
+    // ─────────────────────────────────────────────────────────────────
+    // Top menu bar (translucent)
+    // ─────────────────────────────────────────────────────────────────
+    Card {
+        id: topbar
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: parent.right
-        height: 36
-        color: Qt.rgba(0.04, 0.10, 0.08, 0.85)
-        border.color: Theme.stroke
-        border.width: 0
+        anchors.margins: 0
+        height: 28
+        radius: 0
+        tint: Theme.materialThick
+        stroke: false
 
-        Rectangle { // bottom hairline
+        // bottom hairline
+        Rectangle {
             anchors.left: parent.left; anchors.right: parent.right; anchors.bottom: parent.bottom
-            height: 1; color: Theme.stroke
+            height: 1; color: Theme.separator
         }
 
         RowLayout {
             anchors.fill: parent
-            anchors.leftMargin: Theme.spaceMd
-            anchors.rightMargin: Theme.spaceMd
-            spacing: Theme.spaceMd
+            anchors.leftMargin: 14
+            anchors.rightMargin: 14
+            spacing: 18
 
-            // Logo / activities
+            // Z mark
             Rectangle {
-                Layout.preferredHeight: 24
-                Layout.preferredWidth: 70
-                radius: Theme.radSm
+                Layout.preferredWidth: 18; Layout.preferredHeight: 18
+                radius: width * Theme.squircle
                 gradient: Gradient {
-                    orientation: Gradient.Horizontal
-                    GradientStop { position: 0.0; color: Theme.accent }
-                    GradientStop { position: 1.0; color: Theme.accentSoft }
+                    GradientStop { position: 0.0; color: Theme.cyan }
+                    GradientStop { position: 1.0; color: Theme.blue }
                 }
-                Text {
-                    anchors.centerIn: parent
-                    text: "Zamin"
-                    color: "#0A1814"
-                    font.family: Theme.fontFamily
-                    font.bold: true
-                    font.pixelSize: 12
-                }
+                Text { anchors.centerIn: parent; text: "Z"; color: "white"; font.bold: true; font.pixelSize: 11 }
             }
 
-            // Window title
-            Text {
-                text: "Fayllar  —  Hujjatlar"
-                color: Theme.textMid
-                font.family: Theme.fontFamily
-                font.pixelSize: 12
+            // Menu items
+            Repeater {
+                model: ["Zamin", "Fayl", "Tahrirlash", "Ko'rinish", "Oyna", "Yordam"]
+                delegate: Text {
+                    text: modelData
+                    color: Theme.label
+                    font.family: Theme.fontFamily
+                    font.pixelSize: 13
+                    font.weight: index === 0 ? Font.Bold : Font.Medium
+                }
             }
 
             Item { Layout.fillWidth: true }
 
-            // Tray icons
+            // Status icons
             Row {
-                spacing: Theme.spaceMd
-                Text { text: "Wi-Fi"; color: Theme.textMid; font.pixelSize: 12 }
-                Text { text: "🔊"; color: Theme.textHi; font.pixelSize: 13 }
-                Text { text: "🔋 78%"; color: Theme.textHi; font.pixelSize: 12 }
-            }
-
-            // Clock
-            Column {
-                Layout.preferredWidth: 90
-                spacing: -2
-                Text {
-                    text: "9:41"
-                    color: Theme.textHi
-                    font.family: Theme.fontFamily
-                    font.pixelSize: 13
-                    font.bold: true
-                    horizontalAlignment: Text.AlignRight
-                    width: parent.width
-                }
-                Text {
-                    text: "Sesh, 28 Apr"
-                    color: Theme.textMid
-                    font.family: Theme.fontFamily
-                    font.pixelSize: 10
-                    horizontalAlignment: Text.AlignRight
-                    width: parent.width
-                }
+                spacing: 14
+                Text { text: "≋";  color: Theme.label; font.pixelSize: 14 }   // wifi
+                Text { text: "♪";  color: Theme.label; font.pixelSize: 14 }   // sound
+                Text { text: "🔋"; font.pixelSize: 12 }
+                Text { text: "9:41";   color: Theme.label; font.pixelSize: 13; font.weight: Font.DemiBold }
+                Text { text: "Sesh, 28 Apr"; color: Theme.labelSecondary; font.pixelSize: 12 }
             }
 
             // Avatar
             Rectangle {
-                Layout.preferredWidth: 24; Layout.preferredHeight: 24
-                radius: 12
+                Layout.preferredWidth: 20; Layout.preferredHeight: 20
+                radius: 10
                 gradient: Gradient {
-                    GradientStop { position: 0.0; color: Theme.gold }
-                    GradientStop { position: 1.0; color: Theme.earth }
+                    GradientStop { position: 0.0; color: Theme.orange }
+                    GradientStop { position: 1.0; color: Theme.pink }
                 }
-                Text { anchors.centerIn: parent; text: "A"; color: "#1A1108"; font.bold: true; font.pixelSize: 12 }
+                Text { anchors.centerIn: parent; text: "A"; color: "white"; font.bold: true; font.pixelSize: 11 }
             }
         }
     }
 
-    // Window 1: File manager
-    Rectangle {
+    // ─────────────────────────────────────────────────────────────────
+    // Window 1 — Settings (showcases iOS components)
+    // ─────────────────────────────────────────────────────────────────
+    Item {
         id: win1
-        x: 60; y: 80
-        width: 520; height: 360
-        radius: Theme.radMd
-        color: Qt.rgba(0.06, 0.14, 0.12, 0.96)
-        border.color: Theme.stroke
-        border.width: 1
+        x: 70; y: 60
+        width: 540; height: 420
 
-        // Title bar
-        Rectangle {
-            id: tb1
-            anchors.top: parent.top; anchors.left: parent.left; anchors.right: parent.right
-            height: 32
-            radius: Theme.radMd
-            color: Qt.rgba(0.04, 0.09, 0.07, 1.0)
-
-            // mask the bottom corners
-            Rectangle {
-                anchors.left: parent.left; anchors.right: parent.right; anchors.bottom: parent.bottom
-                height: parent.radius; color: parent.color
-            }
-            Rectangle {
-                anchors.left: parent.left; anchors.right: parent.right; anchors.bottom: parent.bottom
-                height: 1; color: Theme.stroke
-            }
-
-            Row {
-                anchors.left: parent.left; anchors.leftMargin: 12
-                anchors.verticalCenter: parent.verticalCenter
-                spacing: 8
-                Repeater {
-                    model: [Theme.danger, Theme.gold, Theme.success]
-                    delegate: Rectangle {
-                        width: 12; height: 12; radius: 6; color: modelData
-                    }
-                }
-            }
-            Text {
-                anchors.centerIn: parent
-                text: "Fayllar  —  Hujjatlar"
-                color: Theme.textMid
-                font.family: Theme.fontFamily
-                font.pixelSize: 12
+        // Drop shadow proxies (4 stacked rectangles for soft falloff)
+        Repeater {
+            model: 4
+            delegate: Rectangle {
+                anchors.fill: parent
+                anchors.margins: -(index + 1) * 3
+                radius: 18 + index
+                color: "transparent"
+                border.color: Qt.rgba(0, 0, 0, 0.12 - index * 0.025)
+                border.width: 1
             }
         }
 
-        Row {
-            anchors.top: tb1.bottom; anchors.left: parent.left; anchors.right: parent.right
-            anchors.bottom: parent.bottom
-            spacing: 0
+        Card {
+            anchors.fill: parent
+            radius: 14
+            tint: Qt.rgba(0.11, 0.11, 0.13, 0.97)
+            stroke: true
 
-            // Sidebar
-            Rectangle {
-                width: 140; height: parent.height
-                color: Qt.rgba(0.04, 0.10, 0.08, 1.0)
-                Column {
-                    anchors.fill: parent
-                    anchors.margins: 12
-                    spacing: 6
-
-                    Text { text: "JOYLAR"; color: Theme.textDim; font.pixelSize: 9; font.bold: true; font.letterSpacing: 1 }
-                    Repeater {
-                        model: [
-                            { l: "🏠  Bosh papka",  active: false },
-                            { l: "📄  Hujjatlar",   active: true  },
-                            { l: "⬇  Yuklamalar",   active: false },
-                            { l: "🖼  Rasmlar",     active: false },
-                            { l: "♫  Musiqa",       active: false },
-                            { l: "📺  Videolar",    active: false }
-                        ]
-                        delegate: Rectangle {
-                            width: parent.width; height: 26
-                            radius: 6
-                            color: modelData.active ? Qt.rgba(0.12, 0.71, 0.65, 0.18) : "transparent"
-                            Text {
-                                anchors.left: parent.left; anchors.leftMargin: 8
-                                anchors.verticalCenter: parent.verticalCenter
-                                text: modelData.l
-                                color: modelData.active ? Theme.accentSoft : Theme.textMid
-                                font.family: Theme.fontFamily
-                                font.pixelSize: 11
-                            }
-                        }
-                    }
-                }
-            }
-
-            // Vertical divider
-            Rectangle { width: 1; height: parent.height; color: Theme.stroke }
-
-            // File grid
+            // Title bar
             Item {
-                width: parent.width - 141; height: parent.height
-                GridLayout {
-                    anchors.fill: parent
-                    anchors.margins: 16
-                    columns: 4
-                    rowSpacing: 12
-                    columnSpacing: 12
+                id: tb1
+                anchors.top: parent.top; anchors.left: parent.left; anchors.right: parent.right
+                height: 38
 
+                Rectangle {
+                    anchors.left: parent.left; anchors.right: parent.right; anchors.bottom: parent.bottom
+                    height: 1; color: Theme.separator
+                }
+
+                Row {
+                    anchors.left: parent.left; anchors.leftMargin: 14
+                    anchors.verticalCenter: parent.verticalCenter
+                    spacing: 8
                     Repeater {
-                        model: [
-                            { n: "Reja.pdf",       g: "📄", t1: "#E5484D", t2: "#F47075" },
-                            { n: "Suratlar",       g: "📁", t1: "#E8B14F", t2: "#F4CB7A" },
-                            { n: "Loyiha",         g: "📁", t1: "#E8B14F", t2: "#F4CB7A" },
-                            { n: "Hisobot.xlsx",   g: "📊", t1: "#30A46C", t2: "#4FC48C" },
-                            { n: "Slaydlar.odp",   g: "📊", t1: "#9B6BFF", t2: "#B894FF" },
-                            { n: "Skript.sh",      g: "</>","t1": "#1FB6A5", t2: "#3FD9C8" },
-                            { n: "Logotip.svg",    g: "🖼", t1: "#3D8BFF", t2: "#6FACFF" },
-                            { n: "Eslatma.md",     g: "📝", t1: "#C28B5A", t2: "#D9A87A" }
-                        ]
-                        delegate: Column {
-                            spacing: 4
-                            Layout.alignment: Qt.AlignHCenter
-                            Rectangle {
-                                width: 56; height: 56; radius: Theme.radSm
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                gradient: Gradient {
-                                    GradientStop { position: 0.0; color: modelData.t1 }
-                                    GradientStop { position: 1.0; color: modelData.t2 }
+                        model: [Theme.red, Theme.yellow, Theme.green]
+                        delegate: Rectangle {
+                            width: 12; height: 12; radius: 6
+                            color: modelData
+                            antialiasing: true
+                        }
+                    }
+                }
+
+                Text {
+                    anchors.centerIn: parent
+                    text: "Sozlamalar"
+                    color: Theme.label
+                    font.family: Theme.fontFamily
+                    font.pixelSize: 13
+                    font.weight: Font.DemiBold
+                }
+            }
+
+            Row {
+                anchors.top: tb1.bottom; anchors.left: parent.left; anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                spacing: 0
+
+                // Sidebar
+                Item {
+                    width: 170; height: parent.height
+                    Rectangle { anchors.fill: parent; color: Qt.rgba(0.07, 0.07, 0.09, 0.6) }
+                    Rectangle {
+                        anchors.right: parent.right; anchors.top: parent.top; anchors.bottom: parent.bottom
+                        width: 1; color: Theme.separator
+                    }
+
+                    Column {
+                        anchors.fill: parent
+                        anchors.margins: 8
+                        spacing: 2
+                        Repeater {
+                            model: [
+                                { l: "≋",  t: "Wi-Fi",      sel: false, c: Theme.blue },
+                                { l: "✦",  t: "Bluetooth",  sel: false, c: Theme.blue },
+                                { l: "▦",  t: "Ekran",      sel: true,  c: Theme.indigo },
+                                { l: "♪",  t: "Tovush",     sel: false, c: Theme.pink },
+                                { l: "⌨",  t: "Klaviatura", sel: false, c: Theme.grey1 },
+                                { l: "⌚", t: "Vaqt",       sel: false, c: Theme.purple },
+                                { l: "↻",  t: "Yangilash",  sel: false, c: Theme.green }
+                            ]
+                            delegate: Rectangle {
+                                width: parent.width; height: 32
+                                radius: 7
+                                color: modelData.sel ? Qt.rgba(0.04, 0.52, 1.0, 0.22) : "transparent"
+                                Row {
+                                    anchors.left: parent.left; anchors.leftMargin: 8
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    spacing: 10
+                                    Rectangle {
+                                        width: 22; height: 22; radius: 5
+                                        color: modelData.c
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        Text { anchors.centerIn: parent; text: modelData.l; color: "white"; font.pixelSize: 13; font.bold: true }
+                                    }
+                                    Text {
+                                        text: modelData.t
+                                        color: Theme.label
+                                        font.family: Theme.fontFamily
+                                        font.pixelSize: 13
+                                        anchors.verticalCenter: parent.verticalCenter
+                                        font.weight: modelData.sel ? Font.DemiBold : Font.Normal
+                                    }
                                 }
-                                Text { anchors.centerIn: parent; text: modelData.g; font.pixelSize: 22 }
                             }
-                            Text {
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                text: modelData.n
-                                color: Theme.textHi
-                                font.family: Theme.fontFamily
-                                font.pixelSize: 10
+                        }
+                    }
+                }
+
+                // Content pane
+                Item {
+                    width: parent.width - 170; height: parent.height
+
+                    Column {
+                        anchors.fill: parent
+                        anchors.margins: 18
+                        spacing: 14
+
+                        Text {
+                            text: "Ekran"
+                            color: Theme.label
+                            font.family: Theme.fontFamily
+                            font.pixelSize: 22
+                            font.weight: Font.Bold
+                        }
+
+                        Segmented {
+                            width: parent.width
+                            options: ["Yorqin", "Tungi", "Avtomatik"]
+                            current: 1
+                        }
+
+                        Card {
+                            width: parent.width
+                            height: 56 * 3
+                            radius: 12
+                            tint: Theme.bgSecondary
+                            stroke: false
+                            Column {
+                                anchors.fill: parent
+                                ListRow { title: "Yorqinlik";       value: "78%";  trailing: "value";   iconGlyph: "☀"; iconColor: Theme.orange }
+                                ListRow { title: "True Tone";       trailing: "switch"; checked: true; iconGlyph: "◐"; iconColor: Theme.blue }
+                                ListRow { title: "Avtomatik qulflash"; value: "2 daqiqa"; trailing: "value"; iconGlyph: "⏱"; iconColor: Theme.grey1; divider: false }
                             }
+                        }
+
+                        Card {
+                            width: parent.width
+                            height: 56 * 2
+                            radius: 12
+                            tint: Theme.bgSecondary
+                            stroke: false
+                            Column {
+                                anchors.fill: parent
+                                ListRow { title: "Tashqi ekran";  subtitle: "1920×1080 · 60 Hz · faol"; trailing: "chevron"; iconGlyph: "▭"; iconColor: Theme.green }
+                                ListRow { title: "Konvergensiya"; subtitle: "Avtomatik desktop rejim";  trailing: "switch"; checked: true; iconGlyph: "↔"; iconColor: Theme.indigo; divider: false }
+                            }
+                        }
+
+                        Row {
+                            spacing: 10
+                            anchors.right: parent.right
+                            Button { text: "Bekor qilish"; style: "tinted" }
+                            Button { text: "Qo'llash"; style: "filled" }
                         }
                     }
                 }
@@ -244,105 +266,178 @@ Item {
         }
     }
 
-    // Window 2: Terminal
-    Rectangle {
+    // ─────────────────────────────────────────────────────────────────
+    // Window 2 — Notes
+    // ─────────────────────────────────────────────────────────────────
+    Item {
         id: win2
-        x: 620; y: 200
-        width: 540; height: 300
-        radius: Theme.radMd
-        color: Qt.rgba(0.03, 0.08, 0.06, 0.97)
-        border.color: Theme.stroke
-        border.width: 1
+        x: 660; y: 220
+        width: 460; height: 300
 
-        Rectangle {
-            id: tb2
-            anchors.top: parent.top; anchors.left: parent.left; anchors.right: parent.right
-            height: 32
-            radius: Theme.radMd
-            color: Qt.rgba(0.02, 0.06, 0.04, 1.0)
-            Rectangle {
-                anchors.left: parent.left; anchors.right: parent.right; anchors.bottom: parent.bottom
-                height: parent.radius; color: parent.color
-            }
-            Rectangle {
-                anchors.left: parent.left; anchors.right: parent.right; anchors.bottom: parent.bottom
-                height: 1; color: Theme.stroke
-            }
-            Row {
-                anchors.left: parent.left; anchors.leftMargin: 12
-                anchors.verticalCenter: parent.verticalCenter
-                spacing: 8
-                Repeater {
-                    model: [Theme.danger, Theme.gold, Theme.success]
-                    delegate: Rectangle { width: 12; height: 12; radius: 6; color: modelData }
-                }
-            }
-            Text {
-                anchors.centerIn: parent
-                text: "Terminal  —  zsh"
-                color: Theme.textMid
-                font.family: Theme.fontFamily
-                font.pixelSize: 12
+        Repeater {
+            model: 4
+            delegate: Rectangle {
+                anchors.fill: parent
+                anchors.margins: -(index + 1) * 3
+                radius: 18 + index
+                color: "transparent"
+                border.color: Qt.rgba(0, 0, 0, 0.12 - index * 0.025)
+                border.width: 1
             }
         }
 
-        Column {
-            anchors.top: tb2.bottom
-            anchors.left: parent.left; anchors.right: parent.right; anchors.bottom: parent.bottom
-            anchors.margins: 12
-            spacing: 2
+        Card {
+            anchors.fill: parent
+            radius: 14
+            tint: Qt.rgba(0.11, 0.11, 0.13, 0.97)
+            stroke: true
 
-            Text { text: "❯  zamin info";                         color: Theme.accentSoft; font.family: "monospace"; font.pixelSize: 11 }
-            Text { text: "  OS:        ZaminOS 1.0";               color: Theme.textHi;     font.family: "monospace"; font.pixelSize: 11 }
-            Text { text: "  Qurilma:   Zamin Phone";               color: Theme.textHi;     font.family: "monospace"; font.pixelSize: 11 }
-            Text { text: "  Foydalanuvchi:  abbosjon";             color: Theme.textHi;     font.family: "monospace"; font.pixelSize: 11 }
-            Text { text: "  Ish vaqti: 4 soat 12 daqiqa";          color: Theme.textHi;     font.family: "monospace"; font.pixelSize: 11 }
-            Text { text: "  Holat:     Desktop rejimi (tashqi ekran)"; color: Theme.gold;   font.family: "monospace"; font.pixelSize: 11 }
-            Text { text: ""; font.pixelSize: 4 }
-            Text { text: "❯  zamin update";                        color: Theme.accentSoft; font.family: "monospace"; font.pixelSize: 11 }
-            Text { text: "  Tizim yangilangan ✓";                  color: Theme.success;    font.family: "monospace"; font.pixelSize: 11 }
-            Text { text: "❯  _";                                   color: Theme.accentSoft; font.family: "monospace"; font.pixelSize: 11 }
+            Item {
+                id: tb2
+                anchors.top: parent.top; anchors.left: parent.left; anchors.right: parent.right
+                height: 38
+                Rectangle {
+                    anchors.left: parent.left; anchors.right: parent.right; anchors.bottom: parent.bottom
+                    height: 1; color: Theme.separator
+                }
+                Row {
+                    anchors.left: parent.left; anchors.leftMargin: 14
+                    anchors.verticalCenter: parent.verticalCenter
+                    spacing: 8
+                    Repeater {
+                        model: [Theme.red, Theme.yellow, Theme.green]
+                        delegate: Rectangle { width: 12; height: 12; radius: 6; color: modelData; antialiasing: true }
+                    }
+                }
+                Text {
+                    anchors.centerIn: parent
+                    text: "Eslatma"
+                    color: Theme.label
+                    font.family: Theme.fontFamily
+                    font.pixelSize: 13
+                    font.weight: Font.DemiBold
+                }
+            }
+
+            Column {
+                anchors.top: tb2.bottom; anchors.left: parent.left; anchors.right: parent.right
+                anchors.bottom: parent.bottom
+                anchors.margins: 18
+                spacing: 8
+
+                Text {
+                    text: "ZaminOS reja — 1.0 versiya"
+                    color: Theme.label
+                    font.family: Theme.fontFamily
+                    font.pixelSize: 18
+                    font.weight: Font.Bold
+                }
+                Text {
+                    text: "28 aprel · soat 9:41"
+                    color: Theme.labelSecondary
+                    font.family: Theme.fontFamily
+                    font.pixelSize: 12
+                }
+                Item { width: 1; height: 6 }
+
+                Repeater {
+                    model: [
+                        "Konvergent qobiq dizayni — tayyor ✓",
+                        "iOS uslubidagi komponentlar — tugma, switch, list",
+                        "Sozlamalar oynasi — list rows + segmented",
+                        "Qulay klaviatura va ovozli yordamchi",
+                        "Birinchi yangilanish — keyingi haftaga"
+                    ]
+                    delegate: Row {
+                        spacing: 10
+                        Rectangle {
+                            width: 18; height: 18; radius: 9
+                            color: index < 2 ? Theme.green : Qt.rgba(1,1,1,0.10)
+                            border.color: index < 2 ? Theme.green : Theme.grey3
+                            border.width: 1.4
+                            antialiasing: true
+                            Text {
+                                visible: index < 2
+                                anchors.centerIn: parent
+                                text: "✓"; color: "white"; font.pixelSize: 11; font.bold: true
+                            }
+                        }
+                        Text {
+                            text: modelData
+                            color: Theme.label
+                            font.family: Theme.fontFamily
+                            font.pixelSize: 14
+                            anchors.verticalCenter: parent.verticalCenter
+                            opacity: index < 2 ? 0.6 : 1.0
+                        }
+                    }
+                }
+            }
         }
     }
 
-    // Bottom dock
-    Rectangle {
-        id: bottomDock
+    // ─────────────────────────────────────────────────────────────────
+    // Dock (macOS-style)
+    // ─────────────────────────────────────────────────────────────────
+    Card {
+        id: dock
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: Theme.spaceSm
-        height: 56
-        width: dockRow.width + Theme.spaceLg
-        radius: Theme.radLg
-        color: Qt.rgba(0.04, 0.10, 0.08, 0.88)
-        border.color: Theme.stroke
-        border.width: 1
+        anchors.bottomMargin: 10
+        height: 64
+        width: dockRow.width + 24
+        radius: 18
+        tint: Qt.rgba(0.20, 0.20, 0.22, 0.55)
 
         Row {
             id: dockRow
             anchors.centerIn: parent
-            spacing: Theme.spaceSm
+            spacing: 6
 
             Repeater {
                 model: [
-                    { g: "📁", t1: "#E8B14F", t2: "#F4CB7A" },
-                    { g: "🌐", t1: "#1FB6A5", t2: "#3FD9C8" },
-                    { g: "✉",  t1: "#9B6BFF", t2: "#B894FF" },
-                    { g: "💬", t1: "#3D8BFF", t2: "#6FACFF" },
-                    { g: "📷", t1: "#3A4A45", t2: "#5A6A65" },
-                    { g: "♫", t1: "#E5484D", t2: "#F47075" },
-                    { g: "</>", t1: "#1FB6A5", t2: "#3FD9C8" },
-                    { g: "⚙", t1: "#3A4A45", t2: "#5A6A65" }
+                    { g: "☏",  t1: "#34C759", t2: "#5AE07F" },
+                    { g: "✉",  t1: "#34C759", t2: "#5AE07F" },
+                    { g: "✉",  t1: "#0A84FF", t2: "#5AC8FA" },
+                    { g: "❀",  t1: "#FF375F", t2: "#FF6B8A" },
+                    { g: "▲",  t1: "#0A84FF", t2: "#5AC8FA" },
+                    { g: "♪",  t1: "#FF375F", t2: "#FF6B8A" },
+                    { g: "✎",  t1: "#FF9F0A", t2: "#FFC04A" },
+                    { g: "◐",  t1: "#0A84FF", t2: "#5AC8FA" },
+                    { g: "⚙",  t1: "#8E8E93", t2: "#AEAEB2" }
                 ]
-                delegate: Rectangle {
-                    width: 40; height: 40
-                    radius: Theme.radSm
+                delegate: Item {
+                    width: 48; height: 48
                     anchors.verticalCenter: parent.verticalCenter
-                    gradient: Gradient {
-                        GradientStop { position: 0.0; color: modelData.t1 }
-                        GradientStop { position: 1.0; color: modelData.t2 }
+
+                    Rectangle {
+                        anchors.fill: parent
+                        radius: width * Theme.squircle
+                        gradient: Gradient {
+                            GradientStop { position: 0.0; color: modelData.t2 }
+                            GradientStop { position: 1.0; color: modelData.t1 }
+                        }
+                        antialiasing: true
                     }
-                    Text { anchors.centerIn: parent; text: modelData.g; font.pixelSize: 18 }
+                    Rectangle {
+                        anchors.fill: parent
+                        radius: width * Theme.squircle
+                        color: "transparent"
+                        border.color: Qt.rgba(1,1,1,0.16)
+                        border.width: 1
+                        antialiasing: true
+                    }
+                    Text { anchors.centerIn: parent; text: modelData.g; color: "white"; font.pixelSize: 22; font.bold: true }
+
+                    // Running dot
+                    Rectangle {
+                        visible: index < 3
+                        width: 4; height: 4; radius: 2
+                        color: Theme.label
+                        anchors.bottom: parent.bottom
+                        anchors.bottomMargin: -7
+                        anchors.horizontalCenter: parent.horizontalCenter
+                    }
                 }
             }
         }
