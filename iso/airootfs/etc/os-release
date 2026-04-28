@@ -1,0 +1,11 @@
+NAME="ZaminOS"
+PRETTY_NAME="ZaminOS"
+ID=zaminos
+ID_LIKE=arch
+BUILD_ID=rolling
+ANSI_COLOR="38;2;31;182;165"
+HOME_URL="https://github.com/abbosjon-dev/os"
+DOCUMENTATION_URL="https://github.com/abbosjon-dev/os/tree/main/docs"
+SUPPORT_URL="https://github.com/abbosjon-dev/os/issues"
+BUG_REPORT_URL="https://github.com/abbosjon-dev/os/issues"
+LOGO=zaminos

@@ -1,0 +1,29 @@
+# Maintainer: ZaminOS team
+pkgname=zaminos-shell
+pkgver=0.1.0
+pkgrel=1
+pkgdesc="Convergent Qt/QML shell for ZaminOS (mobile + desktop)"
+arch=('aarch64')
+url="https://github.com/abbosjon-dev/os"
+license=('GPL3')
+depends=('qt6-base' 'qt6-declarative' 'qt6-wayland' 'qt6-svg'
+         'kwayland' 'kirigami' 'kwin')
+makedepends=('cmake' 'extra-cmake-modules' 'qt6-tools')
+source=("zaminos-shell-${pkgver}.tar.gz::file://${startdir}/../../shell")
+sha256sums=('SKIP')
+
+build() {
+  cd "${srcdir}/shell"
+  cmake -B build -S . \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_BUILD_TYPE=Release
+  cmake --build build --parallel
+}
+
+package() {
+  cd "${srcdir}/shell"
+  DESTDIR="${pkgdir}" cmake --install build
+
+  install -Dm644 "${srcdir}/shell/data/zaminos-shell.desktop" \
+    "${pkgdir}/usr/share/wayland-sessions/zaminos.desktop"
+}

@@ -1,0 +1,56 @@
+# Base
+base
+base-devel
+linux-pinephone
+linux-firmware
+mkinitcpio
+sudo
+zsh
+nano
+vim
+networkmanager
+modemmanager
+bluez
+bluez-utils
+pulseaudio
+pulseaudio-bluetooth
+alsa-utils
+
+# Wayland + graphics
+wayland
+xorg-xwayland
+mesa
+vulkan-icd-loader
+seatd
+
+# KWin convergent compositor
+kwin
+plasma-workspace
+plasma-wayland-protocols
+kwayland
+kirigami
+qt6-base
+qt6-declarative
+qt6-wayland
+qt6-svg
+qt6-multimedia
+
+# ZaminOS specific (built from packages/)
+zaminos-shell
+zaminos-formfactord
+zaminos-theme
+zaminos-firstboot
+
+# Mobile essentials
+phosh-osk-stub
+eg25-manager
+callaudiod
+maliit-keyboard
+
+# Apps (default set)
+firefox
+kdeconnect
+spectacle
+ark
+dolphin
+konsole

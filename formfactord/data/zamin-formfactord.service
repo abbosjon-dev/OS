@@ -1,0 +1,14 @@
+[Unit]
+Description=ZaminOS form-factor detection daemon
+After=systemd-udevd.service
+PartOf=graphical-session.target
+
+[Service]
+Type=dbus
+BusName=org.zaminos.FormFactor
+ExecStart=/usr/bin/zamin-formfactord
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=graphical-session.target
