@@ -4,7 +4,8 @@ import "../theme"
 // Control Center tile (square, rounded). Becomes filled when active.
 Item {
     id: root
-    property string glyph: ""
+    property string iconName: ""
+    property string iconWeight: "fill"
     property string title: ""
     property string subtitle: ""
     property color tint: Theme.blue
@@ -21,19 +22,17 @@ Item {
         anchors.fill: parent
         anchors.margins: 14
 
-        // Round glyph badge in top-left
         Rectangle {
             id: badge
-            width: 28; height: 28; radius: 14
+            width: 30; height: 30; radius: 15
             color: root.active ? Qt.rgba(1, 1, 1, 0.25) : root.tint
             antialiasing: true
-            Text {
+            Icon {
                 anchors.centerIn: parent
-                text: root.glyph
+                name: root.iconName
+                weight: root.iconWeight
                 color: "white"
-                font.family: Theme.fontFamily
-                font.pixelSize: 14
-                font.bold: true
+                size: 18
             }
         }
 
@@ -46,6 +45,7 @@ Item {
             font.family: Theme.fontFamily
             font.pixelSize: 14
             font.weight: Font.DemiBold
+            renderType: Text.NativeRendering
         }
         Text {
             visible: root.subtitle !== ""
@@ -55,6 +55,7 @@ Item {
             color: Theme.labelSecondary
             font.family: Theme.fontFamily
             font.pixelSize: 12
+            renderType: Text.NativeRendering
         }
     }
 }

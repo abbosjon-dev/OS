@@ -75,9 +75,9 @@ QtObject {
     readonly property int s8: 44
 
     // Typography
-    readonly property string fontFamily:  "Noto Sans"
+    readonly property string fontFamily:  "Inter"
     readonly property string fontMono:    "monospace"
-    readonly property string fontDisplay: "Noto Sans"
+    readonly property string fontDisplay: "Inter Display"
 
     // ZaminOS accent (used sparingly to brand the OS chrome)
     readonly property color accent:       "#0A84FF"

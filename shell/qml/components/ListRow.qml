@@ -8,7 +8,8 @@ Item {
     id: root
     property string title: ""
     property string subtitle: ""
-    property string iconGlyph: ""
+    property string iconName: ""
+    property string iconWeight: "fill"
     property color iconColor: Theme.blue
     property string value: ""
     property string trailing: "chevron"
@@ -22,23 +23,22 @@ Item {
         anchors.fill: parent
         anchors.leftMargin: 16
         anchors.rightMargin: 16
-        spacing: 12
+        spacing: 14
 
         // Icon tile
         Rectangle {
-            visible: root.iconGlyph !== ""
-            Layout.preferredWidth: 32
-            Layout.preferredHeight: 32
+            visible: root.iconName !== ""
+            Layout.preferredWidth: 30
+            Layout.preferredHeight: 30
             radius: 7
             color: root.iconColor
             antialiasing: true
-            Text {
+            Icon {
                 anchors.centerIn: parent
-                text: root.iconGlyph
+                name: root.iconName
+                weight: root.iconWeight
                 color: "white"
-                font.family: Theme.fontFamily
-                font.pixelSize: 17
-                font.bold: true
+                size: 18
             }
         }
 
@@ -49,8 +49,9 @@ Item {
                 text: root.title
                 color: Theme.label
                 font.family: Theme.fontFamily
-                font.pixelSize: 17
+                font.pixelSize: 16
                 font.weight: Font.Normal
+                renderType: Text.NativeRendering
             }
             Text {
                 visible: root.subtitle !== ""
@@ -58,42 +59,41 @@ Item {
                 color: Theme.labelSecondary
                 font.family: Theme.fontFamily
                 font.pixelSize: 13
+                renderType: Text.NativeRendering
             }
         }
 
-        // Trailing
         Text {
             visible: root.trailing === "value"
             text: root.value
             color: Theme.labelSecondary
             font.family: Theme.fontFamily
-            font.pixelSize: 17
+            font.pixelSize: 16
+            renderType: Text.NativeRendering
         }
 
-        Switch_ {
+        Switch {
             visible: root.trailing === "switch"
             checked: root.checked
         }
 
-        Text {
+        Icon {
             visible: root.trailing === "chevron"
-            text: "›"
+            name: "caret-right"
+            weight: "bold"
             color: Theme.labelTertiary
-            font.family: Theme.fontFamily
-            font.pixelSize: 22
-            font.weight: Font.Bold
+            size: 14
         }
     }
 
-    // Hairline separator (inset to align under text, not under icon)
     Rectangle {
         visible: root.divider
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.leftMargin: root.iconGlyph !== "" ? 60 : 16
+        anchors.leftMargin: root.iconName !== "" ? 60 : 16
         height: 1
         color: Theme.separatorOpaque
-        opacity: 0.45
+        opacity: 0.55
     }
 }

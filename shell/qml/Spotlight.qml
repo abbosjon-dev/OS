@@ -1,9 +1,8 @@
 import QtQuick
-import QtQuick.Layouts
 import "components"
 import "theme"
 
-// Desktop Spotlight search — central card with results below.
+// Desktop Spotlight search — central card with results.
 Item {
     id: root
     anchors.fill: parent
@@ -14,14 +13,13 @@ Item {
     Card {
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.top: parent.top
-        anchors.topMargin: 80
+        anchors.topMargin: 100
         width: 680
         height: searchRow.height + results.height + 28
         radius: 18
         tint: Qt.rgba(0.13, 0.13, 0.15, 0.95)
         stroke: true
 
-        // Search row
         Row {
             id: searchRow
             anchors.top: parent.top
@@ -31,40 +29,36 @@ Item {
             spacing: 14
             height: 36
 
-            Text {
-                anchors.verticalCenter: parent.verticalCenter
-                text: "⌕"
+            Icon {
+                name: "magnifying-glass"; weight: "bold"
                 color: Theme.labelSecondary
-                font.family: Theme.fontFamily
-                font.pixelSize: 22
-                font.bold: true
+                size: 22
+                anchors.verticalCenter: parent.verticalCenter
             }
             Text {
                 anchors.verticalCenter: parent.verticalCenter
                 text: "esla"
                 color: Theme.label
-                font.family: Theme.fontFamily
-                font.pixelSize: 22
+                font.family: Theme.fontDisplay
+                font.pixelSize: 24
                 font.weight: Font.Light
+                renderType: Text.NativeRendering
             }
-            Rectangle { // cursor
-                width: 2; height: 24
+            Rectangle {
+                width: 2; height: 26
                 color: Theme.blue
                 anchors.verticalCenter: parent.verticalCenter
             }
         }
 
-        // Hairline
         Rectangle {
             anchors.left: parent.left; anchors.right: parent.right
             anchors.top: searchRow.bottom
             anchors.topMargin: 14
             anchors.leftMargin: 16; anchors.rightMargin: 16
-            height: 1
-            color: Theme.separator
+            height: 1; color: Theme.separator
         }
 
-        // Results
         Column {
             id: results
             anchors.top: searchRow.bottom
@@ -77,11 +71,11 @@ Item {
 
             Repeater {
                 model: [
-                    { g: "✎", t1: Theme.orange, t2: "#FFC04A", title: "Eslatma",        sub: "Ilova",                kbd: "↵" },
-                    { g: "📝", t1: Theme.orange, t2: "#FFC04A", title: "ZaminOS reja",   sub: "Eslatma — bugun",      kbd: "" },
-                    { g: "🔎", t1: Theme.grey1,  t2: "#AEAEB2", title: "esla — Internet", sub: "Brauzerda qidirish",  kbd: "" },
-                    { g: "📚", t1: Theme.purple, t2: "#D6A8FF", title: "eslatma yozish", sub: "Yordam — qo'llanma",   kbd: "" },
-                    { g: "✉",  t1: Theme.blue,   t2: "#5AC8FA", title: "esla.uz",        sub: "Pochta orqali yuborish", kbd: "" }
+                    { i: "note-pencil",  t1: Theme.orange, t2: "#FFC04A", title: "Eslatma",        sub: "Ilova",                 kbd: "↵" },
+                    { i: "note-pencil",  t1: Theme.orange, t2: "#FFC04A", title: "ZaminOS reja",   sub: "Eslatma — bugun",       kbd: "" },
+                    { i: "compass",      t1: Theme.grey1,  t2: "#AEAEB2", title: "esla — Internet", sub: "Brauzerda qidirish",   kbd: "" },
+                    { i: "calendar",     t1: Theme.purple, t2: "#D6A8FF", title: "eslatma yozish", sub: "Yordam — qo'llanma",    kbd: "" },
+                    { i: "envelope",     t1: Theme.blue,   t2: "#5AC8FA", title: "esla.uz",        sub: "Pochta orqali yuborish", kbd: "" }
                 ]
                 delegate: Rectangle {
                     width: parent.width
@@ -105,14 +99,7 @@ Item {
                                 GradientStop { position: 0.0; color: modelData.t2 }
                                 GradientStop { position: 1.0; color: modelData.t1 }
                             }
-                            Text {
-                                anchors.centerIn: parent
-                                text: modelData.g
-                                color: "white"
-                                font.family: Theme.fontFamily
-                                font.pixelSize: 18
-                                font.bold: true
-                            }
+                            Icon { anchors.centerIn: parent; name: modelData.i; weight: "fill"; color: "white"; size: 18 }
                         }
 
                         Column {
@@ -124,17 +111,18 @@ Item {
                                 font.family: Theme.fontFamily
                                 font.pixelSize: 14
                                 font.weight: Font.DemiBold
+                                renderType: Text.NativeRendering
                             }
                             Text {
                                 text: modelData.sub
                                 color: index === 0 ? Qt.rgba(1, 1, 1, 0.8) : Theme.labelSecondary
                                 font.family: Theme.fontFamily
                                 font.pixelSize: 12
+                                renderType: Text.NativeRendering
                             }
                         }
                     }
 
-                    // Trailing kbd hint
                     Rectangle {
                         visible: modelData.kbd !== ""
                         anchors.right: parent.right

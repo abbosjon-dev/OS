@@ -1,27 +1,39 @@
 #!/usr/bin/env python3
-"""ZaminOS qobiq dizaynini PNG tasvirlarga chiqarish (mobile + desktop).
+"""Render every ZaminOS screen to an individual PNG.
 
-Renders the QML shell using OpenGL via llvmpipe inside Xvfb. The QML works in
-its declared logical pixels and is rendered at the same resolution to PNG —
-crispness comes from MSAA + native-rendered text rather than from supersampling
-the scene size.
+Uses OpenGL via llvmpipe inside Xvfb. The QML works in its declared logical
+pixels and is rendered at the same resolution to PNG — crispness comes from
+MSAA + native-rendered text.
 """
 import sys
 from pathlib import Path
 
 from PySide6.QtCore import QUrl, QTimer, Qt
 from PySide6.QtGui import QGuiApplication, QSurfaceFormat
-from PySide6.QtQuick import QQuickView, QQuickWindow, QSGRendererInterface
+from PySide6.QtQuick import QQuickView
 
 QML_DIR = Path(__file__).resolve().parent.parent / "qml"
 OUT_DIR = Path(__file__).resolve().parent / "out"
 OUT_DIR.mkdir(parents=True, exist_ok=True)
 
+PHONE = (390, 844)
+DESK  = (1280, 800)
+
 CASES = [
-    ("mobile",        390, 844,  "Zamin Phone — bosh ekran"),
-    ("controlcenter", 390, 844,  "Zamin Phone — boshqaruv markazi"),
-    ("desktop",       1280, 800, "Zamin Phone — desktop rejim"),
-    ("spotlight",     1280, 800, "Zamin Phone — qidiruv"),
+    # mode             size    label
+    ("lockscreen",     PHONE, "Lockscreen"),
+    ("home",           PHONE, "Home screen"),
+    ("notifications",  PHONE, "Notification center"),
+    ("controlcenter",  PHONE, "Control center"),
+    ("appswitcher",    PHONE, "App switcher"),
+    ("settings",       PHONE, "Settings"),
+    ("settings-wifi",  PHONE, "Settings — Wi-Fi"),
+    ("phonecall",      PHONE, "Phone call"),
+    ("keyboard",       PHONE, "Keyboard / Messages"),
+    ("calculator",     PHONE, "Calculator"),
+    ("notes",          PHONE, "Notes"),
+    ("desktop",        DESK,  "Desktop"),
+    ("spotlight",      DESK,  "Spotlight"),
 ]
 
 
@@ -62,14 +74,16 @@ def main():
     QSurfaceFormat.setDefaultFormat(fmt)
 
     app = QGuiApplication(sys.argv)
-    for mode, w, h, label in CASES:
+    failed = 0
+    for mode, (w, h), label in CASES:
         out = render(mode, w, h)
         if out and out.exists():
             kb = out.stat().st_size // 1024
-            print(f"✓ {label:38s} → {out}  ({kb} KB)")
+            print(f"✓ {label:32s} → {out.name}  ({kb} KB)")
         else:
             print(f"✗ {label} failed", file=sys.stderr)
-            sys.exit(1)
+            failed += 1
+    sys.exit(1 if failed else 0)
 
 
 if __name__ == "__main__":

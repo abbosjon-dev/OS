@@ -1,18 +1,15 @@
 import QtQuick
-import QtQuick.Shapes
 import "../theme"
 
-// iOS-style status bar. On a phone, the time sits inside a notional "Dynamic
-// Island" pill on the left, signal/wifi/battery on the right.
+// iOS-style status bar — time on the left, signal/wifi/battery on the right.
+// Phone variant has a Dynamic Island pill in the centre.
 Item {
     id: root
     height: 44
     property string time: "9:41"
-    property int battery: 78
-    property bool charging: false
+    property int battery: 84
     property bool desktop: false
 
-    // Time
     Text {
         anchors.left: parent.left
         anchors.leftMargin: 28
@@ -21,11 +18,12 @@ Item {
         text: root.time
         color: Theme.label
         font.family: Theme.fontFamily
-        font.pixelSize: 17
+        font.pixelSize: 16
         font.weight: Font.DemiBold
+        renderType: Text.NativeRendering
     }
 
-    // Dynamic island (iPhone 14+ style)
+    // Dynamic Island
     Rectangle {
         visible: !root.desktop
         anchors.horizontalCenter: parent.horizontalCenter
@@ -35,7 +33,6 @@ Item {
         color: "#000000"
     }
 
-    // Right side: signal · wifi · battery
     Row {
         anchors.right: parent.right
         anchors.rightMargin: 24
@@ -58,38 +55,17 @@ Item {
             }
         }
 
-        // Wi-Fi glyph (three arcs)
-        Shape {
-            width: 16; height: 12
+        Icon {
+            name: "wifi-high"
+            weight: "bold"
+            color: Theme.label
+            size: 17
             anchors.verticalCenter: parent.verticalCenter
-            antialiasing: true
-            ShapePath {
-                strokeColor: "transparent"
-                fillColor: Theme.label
-                startX: 8; startY: 11
-                PathArc { x: 11; y: 11; radiusX: 1.5; radiusY: 1.5 }
-            }
-            ShapePath {
-                strokeColor: Theme.label
-                strokeWidth: 1.6
-                fillColor: "transparent"
-                capStyle: ShapePath.RoundCap
-                startX: 4; startY: 7
-                PathArc { x: 12; y: 7; radiusX: 4; radiusY: 4; useLargeArc: false }
-            }
-            ShapePath {
-                strokeColor: Theme.label
-                strokeWidth: 1.6
-                fillColor: "transparent"
-                capStyle: ShapePath.RoundCap
-                startX: 1; startY: 4
-                PathArc { x: 15; y: 4; radiusX: 7; radiusY: 7; useLargeArc: false }
-            }
         }
 
         // Battery
         Item {
-            width: 30; height: 14
+            width: 28; height: 13
             anchors.verticalCenter: parent.verticalCenter
             Rectangle {
                 anchors.fill: parent
@@ -105,7 +81,7 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 width: (parent.width - 8) * (root.battery / 100.0)
                 height: parent.height - 6
-                radius: 2
+                radius: 1.5
                 color: root.battery > 20 ? Theme.label : Theme.red
             }
             Rectangle {

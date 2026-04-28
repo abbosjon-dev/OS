@@ -3,9 +3,8 @@ import QtQuick.Layouts
 import "components"
 import "theme"
 
-// iOS-style home screen with a half-sheet "Sozlamalar" surfaced at the
-// bottom — showcases status bar, app grid, dock, list rows, switches, buttons
-// and a segmented control inside one composition.
+// Clean iOS home screen — status bar, search, two notifications, full app
+// grid (16 apps), dock. No overlay sheet — separate screens demo controls.
 Item {
     id: root
     anchors.fill: parent
@@ -17,170 +16,150 @@ Item {
         anchors.top: parent.top
         anchors.left: parent.left
         anchors.right: parent.right
-        battery: 84
     }
 
-    // Search field — iOS Spotlight style
-    Card {
-        id: search
+    // ─── Top date / weather widget ───────────────────────────────────
+    Item {
+        id: topWidget
+        anchors.top: statusBar.bottom
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.top: statusBar.bottom
-        anchors.leftMargin: 16
-        anchors.rightMargin: 16
         anchors.topMargin: 6
-        height: 38
-        radius: 12
-        tint: Theme.materialThin
+        height: 70
 
-        Row {
-            anchors.fill: parent
-            anchors.leftMargin: 12
-            spacing: 8
-
+        Column {
+            anchors.left: parent.left
+            anchors.leftMargin: 24
+            anchors.verticalCenter: parent.verticalCenter
+            spacing: 0
             Text {
-                anchors.verticalCenter: parent.verticalCenter
-                text: "⌕"
-                color: Theme.labelSecondary
-                font.pixelSize: 17
-                font.bold: true
-            }
-            Text {
-                anchors.verticalCenter: parent.verticalCenter
-                text: "Qidirish"
+                text: "SESHANBA, 28-APREL"
                 color: Theme.labelSecondary
                 font.family: Theme.fontFamily
-                font.pixelSize: 15
+                font.pixelSize: 11
+                font.weight: Font.Bold
+                font.letterSpacing: 0.6
+                renderType: Text.NativeRendering
+            }
+            Text {
+                text: "9:41"
+                color: Theme.label
+                font.family: Theme.fontDisplay
+                font.pixelSize: 44
+                font.weight: Font.Bold
+                renderType: Text.NativeRendering
+            }
+        }
+
+        Row {
+            anchors.right: parent.right
+            anchors.rightMargin: 24
+            anchors.verticalCenter: parent.verticalCenter
+            spacing: 8
+            Icon { name: "sun"; weight: "fill"; color: Theme.yellow; size: 28; anchors.verticalCenter: parent.verticalCenter }
+            Column {
+                anchors.verticalCenter: parent.verticalCenter
+                spacing: 0
+                Text {
+                    text: "23°"
+                    color: Theme.label
+                    font.family: Theme.fontDisplay
+                    font.pixelSize: 22
+                    font.weight: Font.DemiBold
+                    renderType: Text.NativeRendering
+                }
+                Text {
+                    text: "Toshkent"
+                    color: Theme.labelSecondary
+                    font.family: Theme.fontFamily
+                    font.pixelSize: 11
+                    renderType: Text.NativeRendering
+                }
             }
         }
     }
 
-    // Notification stack
-    Column {
-        id: notifs
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.top: search.bottom
-        anchors.leftMargin: 12
-        anchors.rightMargin: 12
-        anchors.topMargin: 12
-        spacing: 8
-
-        Notification {
-            anchors.left: parent.left; anchors.right: parent.right
-            app: "Telegram"
-            time: "hozir"
-            title: "Aziza"
-            body: "Salom! Bugun uchrashuv soat 14:00 da. Tayyormisan?"
-            iconGlyph: "T"
-            iconColor: Theme.cyan
-        }
-        Notification {
-            anchors.left: parent.left; anchors.right: parent.right
-            app: "Pochta"
-            time: "8 daq oldin"
-            title: "ZaminOS jamoasi"
-            body: "Yangi versiya 1.0 chiqdi — qurilmangizni yangilang."
-            iconGlyph: "✉"
-            iconColor: Theme.blue
-        }
-    }
-
-    // App grid
-    GridLayout {
+    // ─── App grid (4×4) ──────────────────────────────────────────────
+    Grid {
         id: appGrid
+        anchors.top: topWidget.bottom
         anchors.left: parent.left
         anchors.right: parent.right
-        anchors.top: notifs.bottom
-        anchors.topMargin: 24
-        anchors.leftMargin: 14
-        anchors.rightMargin: 14
+        anchors.topMargin: 14
+        anchors.leftMargin: 18
+        anchors.rightMargin: 18
         columns: 4
-        rowSpacing: 18
+        rowSpacing: 14
         columnSpacing: 0
+        property real cellW: (width) / 4
 
-        AppIcon { Layout.alignment: Qt.AlignHCenter; label: "Telefon";  glyph: "☏";  tint: "#34C759"; tint2: "#5AE07F"; iconSize: 60 }
-        AppIcon { Layout.alignment: Qt.AlignHCenter; label: "Xabarlar"; glyph: "✉";  tint: "#34C759"; tint2: "#5AE07F"; iconSize: 60; dotted: true }
-        AppIcon { Layout.alignment: Qt.AlignHCenter; label: "Pochta";   glyph: "✉";  tint: "#0A84FF"; tint2: "#5AC8FA"; iconSize: 60 }
-        AppIcon { Layout.alignment: Qt.AlignHCenter; label: "FaceTime"; glyph: "▶";  tint: "#30D158"; tint2: "#5AE07F"; iconSize: 60 }
-
-        AppIcon { Layout.alignment: Qt.AlignHCenter; label: "Galereya"; glyph: "❀";  tint: "#FF375F"; tint2: "#FF6B8A"; iconSize: 60 }
-        AppIcon { Layout.alignment: Qt.AlignHCenter; label: "Kamera";   glyph: "◉";  tint: "#3A3A3C"; tint2: "#636366"; iconSize: 60 }
-        AppIcon { Layout.alignment: Qt.AlignHCenter; label: "Xarita";   glyph: "▲";  tint: "#0A84FF"; tint2: "#5AC8FA"; iconSize: 60 }
-        AppIcon { Layout.alignment: Qt.AlignHCenter; label: "Soat";     glyph: "⌚"; tint: "#1C1C1E"; tint2: "#48484A"; iconSize: 60 }
-
-        AppIcon { Layout.alignment: Qt.AlignHCenter; label: "Eslatma";  glyph: "✎";  tint: "#FF9F0A"; tint2: "#FFC04A"; iconSize: 60 }
-        AppIcon { Layout.alignment: Qt.AlignHCenter; label: "Musiqa";   glyph: "♪";  tint: "#FF375F"; tint2: "#FF6B8A"; iconSize: 60 }
-        AppIcon { Layout.alignment: Qt.AlignHCenter; label: "Brauzer";  glyph: "◐";  tint: "#0A84FF"; tint2: "#5AC8FA"; iconSize: 60 }
-        AppIcon { Layout.alignment: Qt.AlignHCenter; label: "Sozlash";  glyph: "⚙";  tint: "#8E8E93"; tint2: "#AEAEB2"; iconSize: 60 }
+        Repeater {
+            model: [
+                { id: "phone",     label: "Telefon",   iconName: "phone",          tint: "#34C759", tint2: "#5AE07F" },
+                { id: "messages",  label: "Xabarlar",  iconName: "chats",          tint: "#34C759", tint2: "#5AE07F", dotted: true },
+                { id: "mail",      label: "Pochta",    iconName: "envelope",       tint: "#0A84FF", tint2: "#5AC8FA" },
+                { id: "facetime",  label: "FaceTime",  iconName: "video-camera",   tint: "#30D158", tint2: "#5AE07F" },
+                { id: "photos",    label: "Galereya",  iconName: "image",          tint: "#FF375F", tint2: "#FF6B8A" },
+                { id: "camera",    label: "Kamera",    iconName: "camera",         tint: "#3A3A3C", tint2: "#636366" },
+                { id: "maps",      label: "Xarita",    iconName: "map-trifold",    tint: "#0A84FF", tint2: "#5AC8FA" },
+                { id: "clock",     label: "Soat",      iconName: "alarm",          tint: "#1C1C1E", tint2: "#48484A" },
+                { id: "calendar",  label: "Taqvim",    iconName: "calendar",       tint: "#FF453A", tint2: "#FF6B6B" },
+                { id: "weather",   label: "Ob-havo",   iconName: "sun",            tint: "#0A84FF", tint2: "#5AC8FA" },
+                { id: "notes",     label: "Eslatma",   iconName: "note-pencil",    tint: "#FF9F0A", tint2: "#FFC04A" },
+                { id: "calc",      label: "Hisoblash", iconName: "calculator",     tint: "#FF9F0A", tint2: "#FFC04A" },
+                { id: "music",     label: "Musiqa",    iconName: "music-note",     tint: "#FF375F", tint2: "#FF6B8A" },
+                { id: "browser",   label: "Brauzer",   iconName: "compass",        tint: "#0A84FF", tint2: "#5AC8FA" },
+                { id: "files",     label: "Fayllar",   iconName: "folder",         tint: "#0A84FF", tint2: "#5AC8FA" },
+                { id: "settings",  label: "Sozlash",   iconName: "gear",           tint: "#8E8E93", tint2: "#AEAEB2" }
+            ]
+            delegate: Item {
+                width: appGrid.cellW; height: 86
+                AppIcon {
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    iconName:    modelData.iconName
+                    iconWeight:  "fill"
+                    tint:        modelData.tint
+                    tint2:       modelData.tint2
+                    label:       modelData.label
+                    iconSize:    60
+                    dotted:      modelData.dotted === true
+                }
+            }
+        }
     }
 
-    // Half-height "Sozlamalar" sheet — demonstrates list rows + switches +
-    // a segmented control + a primary button. iOS sheet aesthetic.
+    // ─── Dock ────────────────────────────────────────────────────────
     Card {
-        id: sheet
+        id: dock
         anchors.left: parent.left
         anchors.right: parent.right
         anchors.bottom: parent.bottom
-        height: 408
+        anchors.leftMargin: 12
+        anchors.rightMargin: 12
+        anchors.bottomMargin: 22
+        height: 88
         radius: 28
         tint: Theme.materialThick
 
-        // Grabber
-        Rectangle {
-            anchors.top: parent.top
-            anchors.topMargin: 6
-            anchors.horizontalCenter: parent.horizontalCenter
-            width: 36; height: 5
-            radius: 2.5
-            color: Theme.labelTertiary
-        }
+        Row {
+            anchors.centerIn: parent
+            spacing: 18
 
-        Column {
-            anchors.fill: parent
-            anchors.topMargin: 22
-            anchors.leftMargin: 16
-            anchors.rightMargin: 16
-            anchors.bottomMargin: 28
-            spacing: 12
-
-            Text {
-                text: "Tezkor sozlamalar"
-                color: Theme.label
-                font.family: Theme.fontFamily
-                font.pixelSize: 22
-                font.weight: Font.Bold
-            }
-
-            Segmented {
-                width: parent.width
-                options: ["Umumiy", "Ekran", "Tovush"]
-                current: 0
-            }
-
-            // Settings list
-            Card {
-                width: parent.width
-                height: 56 * 4
-                radius: 14
-                tint: Theme.bgSecondary
-                stroke: false
-
-                Column {
-                    anchors.fill: parent
-                    ListRow { title: "Wi-Fi";        subtitle: "Uy tarmog'i"; iconGlyph: "≋"; iconColor: Theme.blue;   trailing: "switch"; checked: true }
-                    ListRow { title: "Bluetooth";    iconGlyph: "✦";          iconColor: Theme.blue;   trailing: "switch"; checked: true }
-                    ListRow { title: "Aviarejim";    iconGlyph: "✈";          iconColor: Theme.orange; trailing: "switch"; checked: false }
-                    ListRow { title: "Tungi rejim";  iconGlyph: "☾";          iconColor: Theme.purple; trailing: "switch"; checked: true; divider: false }
+            Repeater {
+                model: [
+                    { iconName: "phone",       tint: "#34C759", tint2: "#5AE07F" },
+                    { iconName: "chats",       tint: "#34C759", tint2: "#5AE07F" },
+                    { iconName: "compass",     tint: "#0A84FF", tint2: "#5AC8FA" },
+                    { iconName: "music-note",  tint: "#FF375F", tint2: "#FF6B8A" }
+                ]
+                delegate: AppIcon {
+                    iconName: modelData.iconName
+                    iconWeight: "fill"
+                    tint: modelData.tint
+                    tint2: modelData.tint2
+                    showLabel: false
+                    iconSize: 60
                 }
-            }
-
-            // Buttons row
-            Row {
-                spacing: 10
-                width: parent.width
-                Button { text: "Saqlash";       style: "filled"; full: true; width: (parent.width - 10) / 2 }
-                Button { text: "Bekor qilish";  style: "tinted"; full: true; width: (parent.width - 10) / 2 }
             }
         }
     }

@@ -1,27 +1,30 @@
 import QtQuick
-import QtQuick.Shapes
 import "../theme"
 
-// iOS app icon — a continuous-curvature squircle with a gradient fill
-// and a subtle inner highlight.
+// iOS-style app icon: squircle gradient background + a centered Icon glyph
+// + an optional label below. The icon weight defaults to "fill" (solid icons
+// look correct on tinted squircles).
 Item {
     id: root
     property string label: ""
-    property string glyph: ""
+    property string iconName: ""
+    property string iconWeight: "fill"
+    property color iconColor: "white"
     property color tint: Theme.blue
     property color tint2: Qt.lighter(tint, 1.25)
     property bool showLabel: true
     property real iconSize: 60
-    property bool dotted: false   // notification dot
+    property bool dotted: false
+
     width: iconSize + 8
     height: iconSize + (showLabel ? 22 : 0)
 
     Item {
-        id: icon
-        width: root.iconSize; height: root.iconSize
+        id: tile
+        width: root.iconSize
+        height: root.iconSize
         anchors.horizontalCenter: parent.horizontalCenter
 
-        // Squircle background (rounded rect ≈ continuous corner)
         Rectangle {
             anchors.fill: parent
             radius: width * Theme.squircle
@@ -32,8 +35,6 @@ Item {
                 GradientStop { position: 1.0; color: root.tint }
             }
         }
-
-        // Top-edge highlight
         Rectangle {
             anchors.fill: parent
             radius: width * Theme.squircle
@@ -43,17 +44,14 @@ Item {
             antialiasing: true
         }
 
-        // Glyph
-        Text {
+        Icon {
             anchors.centerIn: parent
-            text: root.glyph
-            color: "white"
-            font.family: Theme.fontFamily
-            font.pixelSize: root.iconSize * 0.50
-            font.weight: Font.Bold
+            name: root.iconName
+            weight: root.iconWeight
+            color: root.iconColor
+            size: root.iconSize * 0.55
         }
 
-        // Notification dot
         Rectangle {
             visible: root.dotted
             width: 14; height: 14; radius: 7
@@ -69,13 +67,14 @@ Item {
 
     Text {
         visible: root.showLabel
-        anchors.top: icon.bottom
+        anchors.top: tile.bottom
         anchors.topMargin: 6
         anchors.horizontalCenter: parent.horizontalCenter
         text: root.label
         color: Theme.label
         font.family: Theme.fontFamily
         font.pixelSize: 12
-        font.weight: Font.Normal
+        font.weight: Font.Medium
+        renderType: Text.NativeRendering
     }
 }
